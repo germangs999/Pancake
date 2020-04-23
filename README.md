@@ -3,7 +3,7 @@ Descripción del algoritmo de clasificación/ detección de hielo pancake
 
 ## Algoritmo
 
-Las paqueterías necesarias para ejecutar el algoritmo son:
+Las paqueterías necesarias para ejecutar el algoritmo de clasificación del código **ModeloClasificacion.py** son:
 
 ```python
 import keras
@@ -83,7 +83,7 @@ callbacks_list = [checkpoint, earlystop, reduce_lr]
 model.fit(X_train, y_train, epochs=epochs, verbose=1,callbacks=callbacks_list,shuffle=True,)
 ```
 
-Una vez que se calculan y almacenan los pesos del mejor modelo. Las imágenes del conjunto de validación son procesadas por el programa llamado **SegmentacionImgsNuevas224HH.py**. Cada una de esas imágenes debe ser dividida en parches de 224 x 224 pixeles y para ello se tiene la siguiente función:
+Una vez que se calculan y almacenan los pesos del mejor modelo. Las imágenes del conjunto de validación son procesadas por el programa llamado **SegmentacionImgsValidacion.py**. Cada una de esas imágenes debe ser dividida en parches de 224 x 224 pixeles y para ello se tiene la siguiente función:
 
 ```python
 def dividir_conjunto_imagen(I, tam):
@@ -107,7 +107,7 @@ y_pred = model.predict(X_train)
 savemat(carp_etiqueta + modelo[-2:] + modelos[mod][-7:-5] +'_y_pred_'+ name_imgs[img][:4] +'.mat', {'y_pred': y_pred})
 ```
 
-Ahora, el despliegue de resultados se realiza a través del programa **Indice_DICE.m**. De los datos almacenados el archivo **.mat** se puede calcular la etiqueta de clase para cada parche de 224 x 224 pixeles, entonces hay que reconstruir una máscara de segmentación del mismo tamaño de la imagen por cada parche que la compone. La construcción de la máscara se obtiene a partir de determinar la clase del parche y reacomodar dichos parches en la posición que ocupan dentro de la imagen original de validación:
+Ahora, el despliegue de resultados se realiza a través del programa **DespliegueSegmentacion.m**. De los datos almacenados el archivo **.mat** se puede calcular la etiqueta de clase para cada parche de 224 x 224 pixeles, entonces hay que reconstruir una máscara de segmentación del mismo tamaño de la imagen por cada parche que la compone. La construcción de la máscara se obtiene a partir de determinar la clase del parche y reacomodar dichos parches en la posición que ocupan dentro de la imagen original de validación:
 
 ```matlab
 %Leer las etiquetas
