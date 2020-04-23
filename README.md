@@ -1,9 +1,9 @@
 # Pancake
 Descripción del algoritmo de clasificación/ detección de hielo pancake
 
-## Algortimo
+## Algoritmo
 
-Las paqueterías necesarias para ejecutar el algoritmo son :
+Las paqueterías necesarias para ejecutar el algoritmo son:
 
 ```python
 import keras
@@ -55,7 +55,7 @@ def LeerEstructuras(nombre, no_im):
     return Imagenes, etiquetas, no_img
 ```
 
-Antes de compilar el modelo, mantenemos sin re-entrenar los pesos importados de la primera capa convolucional:
+Antes de compilar el modelo, mantenemos sin reentrenar los pesos importados de la primera capa convolucional:
 
 ```python
 model=Model(inputs=base_model.input,outputs=preds)
@@ -72,7 +72,7 @@ Además, se utilizaron 3 callbacks:
 2. Paro anticipado para que detenga el ajuste cuando no se ha presentado una mejora en la exactitud de clasificación en cierto número de épocas.
 3. Reducir la tasa de aprendizaje (learning rate) cuando no exista una mejora en la exactitud cada cierto número de épocas.
 
-Finalmente se entrena el modelo bajop las características antes mencionadas:
+Finalmente se entrena el modelo bajo las condiciones antes mencionadas:
 
 ```python
 checkpoint = ModelCheckpoint(filepath, monitor='acc', verbose=1, save_best_only=True, mode='max')
@@ -107,7 +107,7 @@ y_pred = model.predict(X_train)
 savemat(carp_etiqueta + modelo[-2:] + modelos[mod][-7:-5] +'_y_pred_'+ name_imgs[img][:4] +'.mat', {'y_pred': y_pred})
 ```
 
-Ahora, el despligue de resultados se realiza a través del programa **Indice_DICE.m**. De los datos almacenados el archivo **.mat** se puede calcular la etiqueta de clase para cada parche de 224 x 224 pixeles, entonces hay que reconstruir una máscara de segmentación del mismo tamaño de la imagen por cada parche que la compone. La construcción de la máscara se obtiene a partir de determinar la clase del parche y reacomodar dischos parches en la posición que ocupan  dentro de la imagen original de validación:
+Ahora, el despliegue de resultados se realiza a través del programa **Indice_DICE.m**. De los datos almacenados el archivo **.mat** se puede calcular la etiqueta de clase para cada parche de 224 x 224 pixeles, entonces hay que reconstruir una máscara de segmentación del mismo tamaño de la imagen por cada parche que la compone. La construcción de la máscara se obtiene a partir de determinar la clase del parche y reacomodar dichos parches en la posición que ocupan dentro de la imagen original de validación:
 
 ```matlab
 %Leer las etiquetas
@@ -148,7 +148,7 @@ Tierra = logical(Tierra(1:(floor(size(Imagen,1)/N))*N, 1:(floor(size(Imagen,2)/N
 Pancake_final = Iseg_1 & ~Tierra;
 ```
 
-Finalmente, esa máscara de panckae final se compara con la máscara generada por el experto (ground truth) a través del índice Dice, una métrica muy conocida para la validación de segmentaciones:
+Finalmente, esa máscara de pancake final se compara con la máscara generada por el experto (ground truth) a través del índice Dice, una métrica muy conocida para la validación de segmentaciones:
 
 ```matlab
 %Leer las mascaras objetivo
@@ -156,11 +156,5 @@ original = load([dir_original im{ix} '_MASK.mat']).BW;
 original = original(1:(floor(size(original,1)/N))*N, 1:(floor(size(original,2)/N))*N);
 Res_dice(mod,ix,fn) = dice(original,Pancake_final);
 ```
-
-
-
-
-
-
 
 
